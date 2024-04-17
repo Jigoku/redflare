@@ -124,7 +124,11 @@ function processsServerReply(host, port, reply, batchId) {
   count--;
   report.mutatorFlags = mutators;
   report.mutators = proto ? proto.mutatorsFromFlags(mutators, gameMode) : '???';
-  report.timeLeft = stream.readNextInt();
+  var timeLeft = stream.readNextInt();
+  if (report.gameVersion >= 278) {
+    timeLeft = Math.floor(timeLeft / 1000); 
+  }
+  report.timeLeft = timeLeft;
   count--;
   report.maxClients = stream.readNextInt();
   count--;
